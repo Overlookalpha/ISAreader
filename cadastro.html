@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cadastro - ISAReader</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">📚🤖</div>
+
+<h1>Criar Conta</h1>
+
+<p>Comece sua jornada de estudos com IA.</p>
+
+<div class="card">
+
+<input
+id="nome"
+type="text"
+placeholder="Seu nome">
+
+<br><br>
+
+<input
+id="email"
+type="email"
+placeholder="Seu e-mail">
+
+<br><br>
+
+<input
+id="senha"
+type="password"
+placeholder="Sua senha">
+
+<br><br>
+
+<button id="cadastro">
+Criar Conta
+</button>
+
+<br><br>
+
+<button class="secundario"
+onclick="window.location='login.html'">
+Já tenho conta
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
+
+authDomain:"isareader.firebaseapp.com",
+
+projectId:"isareader",
+
+storageBucket:"isareader.firebasestorage.app",
+
+messagingSenderId:"988100220646",
+
+appId:"SEU_APP_ID"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+document.getElementById("cadastro").onclick=()=>{
+
+const email=document.getElementById("email").value;
+
+const senha=document.getElementById("senha").value;
+
+createUserWithEmailAndPassword(auth,email,senha)
+
+.then(()=>{
+
+alert("Conta criada com sucesso!");
+
+window.location="biblioteca.html";
+
+})
+
+.catch(e=>{
+
+alert(e.message);
+
+});
+
+};
+
+</script>
+
+</body>
+
+</html>
