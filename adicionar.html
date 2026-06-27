@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adicionar Livro - ISAReader</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">📚</div>
+
+<h1>Adicionar Livro</h1>
+
+<p class="subtitulo">
+Monte sua biblioteca inteligente.
+</p>
+
+<div class="card">
+
+<input
+id="titulo"
+type="text"
+placeholder="Título do Livro">
+
+<br><br>
+
+<input
+id="autor"
+type="text"
+placeholder="Autor">
+
+<br><br>
+
+<select id="categoria">
+
+<option>Filosofia</option>
+<option>Finanças</option>
+<option>Negócios</option>
+<option>Autoajuda</option>
+<option>Psicologia</option>
+<option>Romance</option>
+<option>Outro</option>
+
+</select>
+
+<br><br>
+
+<textarea
+id="texto"
+placeholder="Cole aqui o texto do livro..."
+style="width:100%;height:220px;padding:15px;border-radius:12px;border:none;resize:vertical;"></textarea>
+
+<br><br>
+
+<button id="salvar">
+💾 Salvar Livro
+</button>
+
+<br><br>
+
+<button class="secundario"
+onclick="window.location='biblioteca.html'">
+
+⬅️ Voltar
+
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
+
+authDomain:"isareader.firebaseapp.com",
+
+projectId:"isareader",
+
+storageBucket:"isareader.firebasestorage.app",
+
+messagingSenderId:"988100220646",
+
+appId:"1:988100220646:web:441ecb3100845bf3460d27"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+document.getElementById("salvar").onclick = async ()=>{
+
+const user = auth.currentUser;
+
+if(!user){
+
+alert("Faça login primeiro.");
+
+return;
+
+}
+
+try{
+
+await addDoc(collection(db,"livros"),{
+
+uid:user.uid,
+
+titulo:document.getElementById("titulo").value,
+
+autor:document.getElementById("autor").value,
+
+categoria:document.getElementById("categoria").value,
+
+texto:document.getElementById("texto").value,
+
+progresso:0,
+
+paginaAtual:1,
+
+favorito:false,
+
+criadoEm:serverTimestamp()
+
+});
+
+alert("Livro salvo com sucesso!");
+
+window.location="biblioteca.html";
+
+}
+
+catch(e){
+
+alert(e.message);
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
