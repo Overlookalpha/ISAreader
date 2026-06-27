@@ -1,15 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
-<title>ISAReader - Biblioteca</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Minha Biblioteca</title>
+
+<link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>📚 Minha Biblioteca</h1>
 
-<p>Em breve seus livros aparecerão aqui.</p>
+<p class="subtitulo">
+Continue sua jornada de aprendizado.
+</p>
+
+<div class="card">
+
+<h2>📖 Continuar leitura</h2>
+
+<p>Nenhum livro iniciado.</p>
+
+<button id="novoLivro">
+➕ Adicionar Livro
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="item">
+<h3>⭐</h3>
+<p>Nível 1</p>
+</div>
+
+<div class="item">
+<h3>🏆</h3>
+<p>350 XP</p>
+</div>
+
+<div class="item">
+<h3>🪙</h3>
+<p>250 ISAcoins</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>📚 Meus Livros</h2>
+
+<div id="livros">
+
+<p style="opacity:.7">
+Você ainda não adicionou nenhum livro.
+</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>🤖 IA</h2>
+
+<p>
+Converse com qualquer livro, faça perguntas e peça resumos inteligentes.
+</p>
+
+<button>
+Abrir Assistente
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+document
+.getElementById("novoLivro")
+.onclick=()=>{
+
+alert("Em breve você poderá adicionar livros.");
+
+}
+
+</script>
 
 </body>
+
 </html>
