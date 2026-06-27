@@ -18,6 +18,25 @@
 
 <button>Entrar</button>
 
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
+  authDomain: "isareader.firebaseapp.com",
+  projectId: "isareader",
+  storageBucket: "isareader.firebasestorage.app",
+  messagingSenderId: "988100220646",
+  appId: "1:988100220646:web:441ecb3100845bf3460d27"
+};
+
+const app = initializeApp(firebaseConfig);
+
+console.log("✅ Firebase conectado!");
+
+</script>
+
 <script src="js/script.js"></script>
 
 </body>
