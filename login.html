@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login - ISAReader</title>
+<title>Entrar - ISAReader</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -15,11 +16,15 @@
 
 <div class="container">
 
-<div class="logo">📚🤖</div>
+<div class="logo">
+📚🤖
+</div>
 
-<h1>ISAReader</h1>
+<h1>Bem-vindo!</h1>
 
-<p>Entre para continuar sua jornada de estudos.</p>
+<p class="subtitulo">
+Entre para continuar seus estudos.
+</p>
 
 <div class="card">
 
@@ -38,16 +43,24 @@ placeholder="Sua senha">
 <br><br>
 
 <button id="login">
-Entrar
+🔓 Entrar
 </button>
 
-<br><br>
-
-<button onclick="window.location='cadastro.html'">
-Criar conta
+<button id="cadastro" class="secundario">
+✨ Criar Conta
 </button>
+
+<p style="margin-top:20px;text-align:center;opacity:.7">
+Esqueceu sua senha?<br>
+Em breve recuperação automática.
+</p>
 
 </div>
+
+<button class="secundario"
+onclick="window.location='index.html'">
+⬅️ Voltar
+</button>
 
 </div>
 
@@ -57,36 +70,57 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
 
 import {
 getAuth,
-signInWithEmailAndPassword
+signInWithEmailAndPassword,
+createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
+apiKey:"AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
 
-authDomain: "isareader.firebaseapp.com",
+authDomain:"isareader.firebaseapp.com",
 
-projectId: "isareader",
+projectId:"isareader",
 
-storageBucket: "isareader.firebasestorage.app",
+storageBucket:"isareader.firebasestorage.app",
 
-messagingSenderId: "988100220646",
+messagingSenderId:"988100220646",
 
-appId: "SEU_APP_ID"
+appId:"1:988100220646:web:441ecb3100845bf3460d27"
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const email=document.getElementById("email");
+const senha=document.getElementById("senha");
+
+document.getElementById("cadastro").onclick=()=>{
+
+createUserWithEmailAndPassword(
+auth,
+email.value,
+senha.value
+)
+
+.then(()=>{
+
+alert("Conta criada com sucesso!");
+
+})
+
+.catch(e=>alert(e.message));
 
 };
 
-const app = initializeApp(firebaseConfig);
+document.getElementById("login").onclick=()=>{
 
-const auth = getAuth(app);
-
-document.getElementById("login").onclick = () => {
-
-const email = document.getElementById("email").value;
-
-const senha = document.getElementById("senha").value;
-
-signInWithEmailAndPassword(auth,email,senha)
+signInWithEmailAndPassword(
+auth,
+email.value,
+senha.value
+)
 
 .then(()=>{
 
@@ -105,4 +139,5 @@ alert("Erro: "+e.message);
 </script>
 
 </body>
+
 </html>
