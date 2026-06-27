@@ -1,1 +1,119 @@
-/* ISAReader CSS */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+.container{
+width:95%;
+max-width:430px;
+background:#1e293bcc;
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:25px;
+box-shadow:0 0 40px rgba(0,0,0,.4);
+text-align:center;
+}
+
+.logo{
+font-size:70px;
+margin-bottom:15px;
+animation:flutuar 3s infinite;
+}
+
+h1{
+font-size:36px;
+margin-bottom:10px;
+}
+
+p{
+color:#cbd5e1;
+line-height:25px;
+margin-bottom:25px;
+}
+
+.card{
+background:#0f172a;
+padding:20px;
+border-radius:18px;
+margin-bottom:18px;
+text-align:left;
+}
+
+.card h2{
+font-size:20px;
+margin-bottom:8px;
+}
+
+.xp{
+height:15px;
+background:#374151;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.xp div{
+width:35%;
+height:100%;
+background:linear-gradient(90deg,#00ff99,#00ccff);
+border-radius:20px;
+animation:carregar 2s;
+}
+
+.stats{
+display:flex;
+justify-content:space-between;
+margin:20px 0;
+}
+
+.item{
+background:#0f172a;
+padding:15px;
+border-radius:15px;
+width:31%;
+}
+
+.item h3{
+font-size:28px;
+}
+
+button{
+width:100%;
+padding:18px;
+font-size:18px;
+font-weight:bold;
+border:none;
+border-radius:15px;
+background:linear-gradient(90deg,#00c853,#00e676);
+cursor:pointer;
+transition:.3s;
+color:white;
+}
+
+button:hover{
+transform:scale(1.04);
+box-shadow:0 0 20px #00e676;
+}
+
+@keyframes flutuar{
+50%{
+transform:translateY(-8px);
+}
+}
+
+@keyframes carregar{
+from{
+width:0;
+}
+}
