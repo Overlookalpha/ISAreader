@@ -154,3 +154,30 @@ margin-top:15px;
 background:#34495e;
 
 }
+hr{
+
+border:none;
+
+height:1px;
+
+background:rgba(255,255,255,.15);
+
+margin:20px 0;
+
+}
+
+.hero h2{
+
+margin-bottom:8px;
+
+color:#00ff9d;
+
+}
+
+.hero p{
+
+opacity:.9;
+
+margin-bottom:15px;
+
+}
