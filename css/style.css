@@ -181,3 +181,46 @@ opacity:.9;
 margin-bottom:15px;
 
 }
+.subtitulo{
+margin-bottom:35px;
+opacity:.8;
+}
+
+.feature{
+text-align:left;
+padding:15px 0;
+}
+
+.feature h2{
+margin-bottom:10px;
+color:#00ff88;
+font-size:26px;
+}
+
+.feature p{
+opacity:.85;
+line-height:28px;
+font-size:18px;
+}
+
+hr{
+border:none;
+border-top:1px solid rgba(255,255,255,.08);
+margin:15px 0;
+}
+
+.secundario{
+
+margin-top:15px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+}
+
+.secundario:hover{
+
+background:#0099ff;
+
+}
