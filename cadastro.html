@@ -68,6 +68,11 @@ import {
 getAuth,
 createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {
+getFirestore,
+doc,
+setDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";  
 
 const firebaseConfig={
 
@@ -88,6 +93,7 @@ appId:"SEU_APP_ID"
 const app=initializeApp(firebaseConfig);
 
 const auth=getAuth(app);
+const db = getFirestore(app);
 
 document.getElementById("cadastro").onclick=()=>{
 
@@ -97,7 +103,31 @@ const senha=document.getElementById("senha").value;
 
 createUserWithEmailAndPassword(auth,email,senha)
 
-.then(()=>{
+.then(async (userCredential)=>{
+
+const user = userCredential.user;
+
+await setDoc(doc(db,"usuarios",user.uid),{
+
+nome: document.getElementById("nome").value,
+
+email: user.email,
+
+nivel: 1,
+
+xp: 0,
+
+isacoins: 0,
+
+sequencia: 0,
+
+livros: 0,
+
+minutosLidos: 0,
+
+criadoEm: new Date()
+
+});
 
 alert("Conta criada com sucesso!");
 
