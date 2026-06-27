@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,26 +14,176 @@
 
 <body>
 
-<h1>📚 ISAReader</h1>
+<div class="container">
 
-<p>Leia, ouça e estude seus livros com IA.</p>
+<div class="logo">📚🤖</div>
 
-<button>Entrar</button>
+<h1>ISAReader</h1>
+
+<p>
+Leia, ouça e estude qualquer livro utilizando Inteligência Artificial.
+</p>
+
+<div class="card">
+
+<h2>🔥 Sequência</h2>
+
+<p>
+Você estudou por <b>0 dias</b>.
+Comece hoje e mantenha sua sequência.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>⭐ Nível 1</h2>
+
+<p>XP: 350 / 1000</p>
+
+<div class="xp">
+<div></div>
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="item">
+<h3>🪙</h3>
+<p>250 ISAcoins</p>
+</div>
+
+<div class="item">
+<h3>📚</h3>
+<p>0 Livros</p>
+</div>
+
+<div class="item">
+<h3>⏱️</h3>
+<p>0 min</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>📖 Última leitura</h2>
+
+<p>
+Nenhum livro iniciado.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🔐 Entrar</h2>
+
+<input
+id="email"
+type="email"
+placeholder="Seu e-mail">
+
+<br><br>
+
+<input
+id="senha"
+type="password"
+placeholder="Sua senha">
+
+<br><br>
+
+<button id="login">
+Entrar
+</button>
+
+<br><br>
+
+<button id="cadastro">
+Criar conta
+</button>
+
+</div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
+import {
+getAuth,
+signInWithEmailAndPassword,
+createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  
 const firebaseConfig = {
-  apiKey: "AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
-  authDomain: "isareader.firebaseapp.com",
-  projectId: "isareader",
-  storageBucket: "isareader.firebasestorage.app",
-  messagingSenderId: "988100220646",
-  appId: "1:988100220646:web:441ecb3100845bf3460d27"
+
+apiKey: "AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
+
+authDomain: "isareader.firebaseapp.com",
+
+projectId: "isareader",
+
+storageBucket: "isareader.firebasestorage.app",
+
+messagingSenderId: "988100220646",
+
+appId: "1:988100220646:web:441ecb3100845bf3460d27"
+
 };
 
 const app = initializeApp(firebaseConfig);
+
+ const auth = getAuth(app);
+console.log("🔐 Auth iniciado!");
+  
+const email=document.getElementById("email");
+const senha=document.getElementById("senha");
+
+document.getElementById("cadastro").onclick=()=>{
+
+createUserWithEmailAndPassword(
+auth,
+email.value,
+senha.value
+)
+
+.then(()=>{
+
+alert("Conta criada com sucesso!");
+
+})
+
+.catch(e=>{
+
+alert(e.message);
+
+});
+
+};
+
+document.getElementById("login").onclick=()=>{
+
+signInWithEmailAndPassword(
+auth,
+email.value,
+senha.value
+)
+
+.then(()=>{
+
+alert("Bem-vindo ao ISAReader!");
+
+window.location="biblioteca.html";
+
+})
+
+.catch(e=>{
+
+alert(e.message);
+
+});
+
+}; 
 
 console.log("✅ Firebase conectado!");
 
@@ -39,5 +191,8 @@ console.log("✅ Firebase conectado!");
 
 <script src="js/script.js"></script>
 
+</div>
+
 </body>
+
 </html>
