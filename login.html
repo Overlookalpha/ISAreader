@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - ISAReader</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">📚🤖</div>
+
+<h1>ISAReader</h1>
+
+<p>Entre para continuar sua jornada de estudos.</p>
+
+<div class="card">
+
+<input
+id="email"
+type="email"
+placeholder="Seu e-mail">
+
+<br><br>
+
+<input
+id="senha"
+type="password"
+placeholder="Sua senha">
+
+<br><br>
+
+<button id="login">
+Entrar
+</button>
+
+<br><br>
+
+<button onclick="window.location='cadastro.html'">
+Criar conta
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
+
+authDomain: "isareader.firebaseapp.com",
+
+projectId: "isareader",
+
+storageBucket: "isareader.firebasestorage.app",
+
+messagingSenderId: "988100220646",
+
+appId: "SEU_APP_ID"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+document.getElementById("login").onclick = () => {
+
+const email = document.getElementById("email").value;
+
+const senha = document.getElementById("senha").value;
+
+signInWithEmailAndPassword(auth,email,senha)
+
+.then(()=>{
+
+window.location="biblioteca.html";
+
+})
+
+.catch(e=>{
+
+alert("Erro: "+e.message);
+
+});
+
+};
+
+</script>
+
+</body>
+</html>
