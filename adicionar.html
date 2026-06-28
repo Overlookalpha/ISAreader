@@ -233,6 +233,33 @@ document.getElementById("adicionarPaginas").onclick = () => {
 
 };
 
+async function melhorarImagem(file) {
+
+    return new Promise((resolve) => {
+
+        const img = new Image();
+
+        img.onload = () => {
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            ctx.filter = "grayscale(100%) contrast(180%) brightness(115%)";
+
+            ctx.drawImage(img, 0, 0);
+
+            resolve(canvas);
+        };
+
+        img.src = URL.createObjectURL(file);
+
+    });
+
+}
+    
 document.getElementById("ocr").onclick = async () => {
 
     if (paginas.files.length === 0) {
@@ -247,12 +274,21 @@ document.getElementById("ocr").onclick = async () => {
         texto.value += `
             \n📖 Processando página ${i + 1} de ${paginas.files.length}...\n\n`;
 
-        const {
-            data
-        } = await Tesseract.recognize(
-            paginas.files[i],
-            "por"
-        );
+       const imagemMelhorada = await melhorarImagem(paginas.files[i]);
+
+const { data } = await Tesseract.recognize(
+    imagemMelhorada,
+    "por",
+    {
+        logger: (m) => {
+            if (m.status === "recognizing text") {
+                texto.value =
+                    `📖 Processando página ${i + 1} de ${paginas.files.length}...\n` +
+                    Math.round(m.progress * 100) + "%\n\n";
+            }
+        }
+    }
+);
 
         texto.value += data.text + "\n\n";
 
