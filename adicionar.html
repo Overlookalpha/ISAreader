@@ -244,8 +244,8 @@ document.getElementById("ocr").onclick = async () => {
 
     for (let i = 0; i < paginas.files.length; i++) {
 
-        texto.value +=
-            \n📖 Processando página ${i + 1} de ${paginas.files.length}...\n\n;
+        texto.value += `
+            \n📖 Processando página ${i + 1} de ${paginas.files.length}...\n\n`;
 
         const {
             data
