@@ -51,10 +51,61 @@ placeholder="Autor">
 
 <br><br>
 
+<h2>📷 Adicionar páginas</h2>
+
+<input
+type="file"
+id="fotos"
+accept="image/*"
+multiple>
+
+<br><br>
+
+<div id="listaFotos"></div>
+<br><br>
+
+<p id="contadorPaginas">
+Nenhuma página selecionada.
+</p>
+
+<br>
+
+<button id="adicionarPaginas">
+📷 Mostrar Páginas
+</button>
+
+<br><br>
+
+<div id="previewPaginas" style="
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+"></div>
+  
+<br>
+
+<button id="ocr">
+
+📖 Processar Fotos
+
+</button>
+
+<br><br>
+
 <textarea
+
 id="texto"
-placeholder="Cole aqui o texto do livro..."
-style="width:100%;height:220px;padding:15px;border-radius:12px;border:none;resize:vertical;"></textarea>
+
+placeholder="O texto aparecerá aqui automaticamente..."
+
+style="width:100%;
+height:220px;
+padding:15px;
+border-radius:12px;
+border:none;
+resize:vertical;">
+
+</textarea>
 
 <br><br>
 
@@ -159,7 +210,21 @@ alert(e.message);
 }
 
 }
+const paginas=document.getElementById("paginas");
 
+paginas.onchange=()=>{
+
+document.getElementById("contadorPaginas").innerHTML=
+
+"📷 "+paginas.files.length+" página(s) selecionada(s).";
+
+};
+
+document.getElementById("adicionarPaginas").onclick=()=>{
+
+alert("Na próxima etapa vamos transformar essas fotos em texto automaticamente.");
+
+};
 </script>
 
 </body>
