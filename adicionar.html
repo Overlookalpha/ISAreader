@@ -181,13 +181,10 @@ await addDoc(collection(db,"livros"),{
 
 uid:user.uid,
 
-titulo:ElementById("titulo").value,
-
-autor:ElementById("autor").value,
-
-categoria:ElementById("categoria").value,
-
-texto:ElementById("texto").value,
+titulo: document.getElementById("titulo").value,
+autor: document.getElementById("autor").value,
+categoria: document.getElementById("categoria").value,
+texto: document.getElementById("texto").value,
 
 progresso:0,
 
@@ -212,29 +209,55 @@ alert(e.message);
 }
 
 }
-const paginas = ElementById("fotos");
-
+const paginas = document.getElementById("fotos");
 paginas.onchange=()=>{
 
-ElementById("contadorPaginas").innerHTML=
-
-"📷 "+paginas.files.length+" página(s) selecionada(s).";
+document.getElementById("contadorPaginas").innerHTML =
+"📷 " + paginas.files.length + " página(s) selecionada(s).";
 
 };
 
-ElementById("adicionarPaginas").onclick = () => {
+document.getElementById("adicionarPaginas").onclick = () => {
 
-const preview = ElementById("previewPaginas");
+    const preview = document.getElementById("previewPaginas");
+    preview.innerHTML = "";
 
-preview.innerHTML = "";
+    const arquivos = [...paginas.files];
 
-const arquivos = [...paginas.files];
+    if (arquivos.length === 0) {
+        alert("Selecione as páginas primeiro.");
+        return;
+    }
 
-if (arquivos.length === 0) {
-    alert("Selecione as páginas primeiro.");
-    return;
-}
+    arquivos.forEach((arquivo, indice) => {
 
+        const leitor = new FileReader();
+
+        leitor.onload = (e) => {
+
+            const card = document.createElement("div");
+
+            card.style.background = "#1b1b1b";
+            card.style.borderRadius = "10px";
+            card.style.padding = "8px";
+            card.style.textAlign = "center";
+
+            card.innerHTML = `
+                <img src="${e.target.result}" style="width:100%; border-radius:8px;">
+                <div style="margin-top:6px;">
+                    Página ${indice + 1}
+                </div>
+            `;
+
+            preview.appendChild(card);
+
+        };
+
+        leitor.readAsDataURL(arquivo);
+
+    });
+
+};
 arquivos.forEach((arquivo, indice) => {
 
     const leitor = new FileReader();
