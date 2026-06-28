@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adicionar Livro - ISAReader</title>
 
 <link rel="stylesheet" href="css/style.css">
+
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 
 </head>
 
@@ -161,7 +164,7 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-document.getElementById("salvar").onclick = async ()=>{
+ElementById("salvar").onclick = async ()=>{
 
 const user = auth.currentUser;
 
@@ -179,13 +182,13 @@ await addDoc(collection(db,"livros"),{
 
 uid:user.uid,
 
-titulo:document.getElementById("titulo").value,
+titulo:ElementById("titulo").value,
 
-autor:document.getElementById("autor").value,
+autor:ElementById("autor").value,
 
-categoria:document.getElementById("categoria").value,
+categoria:ElementById("categoria").value,
 
-texto:document.getElementById("texto").value,
+texto:ElementById("texto").value,
 
 progresso:0,
 
@@ -210,21 +213,86 @@ alert(e.message);
 }
 
 }
-const paginas=document.getElementById("paginas");
+const paginas = ElementById("fotos");
 
 paginas.onchange=()=>{
 
-document.getElementById("contadorPaginas").innerHTML=
+ElementById("contadorPaginas").innerHTML=
 
 "📷 "+paginas.files.length+" página(s) selecionada(s).";
 
 };
 
-document.getElementById("adicionarPaginas").onclick=()=>{
+ElementById("adicionarPaginas").onclick = () => {
 
-alert("Na próxima etapa vamos transformar essas fotos em texto automaticamente.");
+const preview = ElementById("previewPaginas");
+
+preview.innerHTML = "";
+
+const arquivos = [...paginas.files];
+
+if (arquivos.length === 0) {
+    alert("Selecione as páginas primeiro.");
+    return;
+}
+
+arquivos.forEach((arquivo, indice) => {
+
+    const leitor = new FileReader();
+
+    leitor.onload = (e) => {
+
+        const card = document.createElement("div");
+
+        card.style.background = "#1b1b1b";
+        card.style.borderRadius = "10px";
+        card.style.padding = "8px";
+        card.style.textAlign = "center";
+
+        card.innerHTML = `
+            <img src="${e.target.result}"
+                 style="width:100%; border-radius:8px;">
+            <div style="margin-top:6px;">
+                Página ${indice + 1}
+            </div>
+        `;
+
+        preview.appendChild(card);
+
+    };
+
+    leitor.readAsDataURL(arquivo);
+
+});
 
 };
+
+document.getElementById("ocr").onclick = async () => {
+
+    if (paginas.files.length === 0) {
+        alert("Selecione as páginas primeiro.");
+        return;
+    }
+
+    const caixaTexto = document.getElementById("texto");
+    caixaTexto.value = "";
+
+    for (let i = 0; i < paginas.files.length; i++) {
+
+        caixaTexto.value += "\n\nProcessando página " + (i + 1) + "...\n\n";
+
+        const resultado = await Tesseract.recognize(
+            paginas.files[i],
+            "por"
+        );
+
+        caixaTexto.value += resultado.data.text;
+    }
+
+    alert("Livro convertido para texto!");
+
+};
+
 </script>
 
 </body>
