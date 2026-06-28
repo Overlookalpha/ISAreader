@@ -263,12 +263,6 @@ async function melhorarImagem(file) {
 
                 let cinza = (r + g + b) / 3;
 
-                if (cinza > 165) {
-                    cinza = 255;
-                } else {
-                    cinza = 0;
-                }
-
                 data[i] = cinza;
                 data[i + 1] = cinza;
                 data[i + 2] = cinza;
