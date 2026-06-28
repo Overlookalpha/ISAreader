@@ -160,7 +160,7 @@ serverTimestamp
 
 import Tesseract from "https://cdn.jsdelivr.net/npm/tesseract.js@5/+esm";
 
-const firebaseConfig = {
+firebaseConfig = {
 
 apiKey:"AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
 authDomain:"isareader.firebaseapp.com",
@@ -241,17 +241,45 @@ async function melhorarImagem(file) {
 
         img.onload = () => {
 
+            const escala = 2;
+
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
-            canvas.width = img.width;
-            canvas.height = img.height;
+            canvas.width = img.width * escala;
+            canvas.height = img.height * escala;
 
-            ctx.filter = "grayscale(100%) contrast(180%) brightness(115%)";
+            ctx.scale(escala, escala);
 
             ctx.drawImage(img, 0, 0);
 
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+
+                let cinza = (r + g + b) / 3;
+
+                if (cinza > 165) {
+                    cinza = 255;
+                } else {
+                    cinza = 0;
+                }
+
+                data[i] = cinza;
+                data[i + 1] = cinza;
+                data[i + 2] = cinza;
+
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+
             resolve(canvas);
+
         };
 
         img.src = URL.createObjectURL(file);
@@ -286,10 +314,12 @@ const { data } = await Tesseract.recognize(
                     `📖 Processando página ${i + 1} de ${paginas.files.length}...\n` +
                     Math.round(m.progress * 100) + "%\n\n";
             }
-        }
+        },
+
+        tessedit_pageseg_mode: "6",
+        preserve_interword_spaces: "1"
     }
 );
-
         texto.value += data.text + "\n\n";
 
     }
