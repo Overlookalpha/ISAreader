@@ -164,8 +164,7 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-ElementById("salvar").onclick = async ()=>{
-
+document.getElementById("salvar").onclick = async ()=>{
 const user = auth.currentUser;
 
 if(!user){
