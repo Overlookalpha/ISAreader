@@ -301,7 +301,9 @@ document.getElementById("ocr").onclick = async () => {
         texto.value += `
             \n📖 Processando página ${i + 1} de ${paginas.files.length}...\n\n`;
 
-       const imagemMelhorada = await melhorarImagem(paginas.files[i]);
+      const imagemMelhorada = await melhorarImagem(paginas.files[i]);
+
+document.body.appendChild(imagemMelhorada);
 
 const { data } = await Tesseract.recognize(
     imagemMelhorada,
