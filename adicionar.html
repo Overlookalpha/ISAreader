@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Adicionar Livro - ISAReader</title>
 
 <link rel="stylesheet" href="css/style.css">
-
-<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 
 </head>
 
@@ -57,14 +57,11 @@ placeholder="Autor">
 <h2>📷 Adicionar páginas</h2>
 
 <input
-type="file"
 id="fotos"
+type="file"
 accept="image/*"
 multiple>
 
-<br><br>
-
-<div id="listaFotos"></div>
 <br><br>
 
 <p id="contadorPaginas">
@@ -79,35 +76,53 @@ Nenhuma página selecionada.
 
 <br><br>
 
-<div id="previewPaginas" style="
+<div
+id="previewPaginas"
+style="
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:10px;
-"></div>
-  
+">
+</div>
+
 <br>
 
 <button id="ocr">
-
 📖 Processar Fotos
+</button>
 
+<br><br>
+
+<button id="ouvir">
+▶️ Ouvir
+</button>
+
+<button id="pausar">
+⏸️ Pausar
+</button>
+
+<button id="continuar">
+▶️ Continuar
+</button>
+
+<button id="parar">
+⏹️ Parar
 </button>
 
 <br><br>
 
 <textarea
-
 id="texto"
-
 placeholder="O texto aparecerá aqui automaticamente..."
 
-style="width:100%;
+style="
+width:100%;
 height:220px;
 padding:15px;
 border-radius:12px;
 border:none;
-resize:vertical;">
-
+resize:vertical;
+">
 </textarea>
 
 <br><br>
@@ -118,7 +133,8 @@ resize:vertical;">
 
 <br><br>
 
-<button class="secundario"
+<button
+class="secundario"
 onclick="window.location='biblioteca.html'">
 
 ⬅️ Voltar
@@ -142,18 +158,15 @@ addDoc,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+import Tesseract from "https://cdn.jsdelivr.net/npm/tesseract.js@5/+esm";
+
 const firebaseConfig = {
 
 apiKey:"AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
-
 authDomain:"isareader.firebaseapp.com",
-
 projectId:"isareader",
-
 storageBucket:"isareader.firebasestorage.app",
-
 messagingSenderId:"988100220646",
-
 appId:"1:988100220646:web:441ecb3100845bf3460d27"
 
 };
@@ -164,87 +177,48 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-document.getElementById("salvar").onclick = async ()=>{
-const user = auth.currentUser;
+const paginas = document.getElementById("fotos");
+const contador = document.getElementById("contadorPaginas");
+const preview = document.getElementById("previewPaginas");
+const texto = document.getElementById("texto");
 
-if(!user){
+paginas.addEventListener("change", () => {
 
-alert("Faça login primeiro.");
-
-return;
-
-}
-
-try{
-
-await addDoc(collection(db,"livros"),{
-
-uid:user.uid,
-
-titulo: document.getElementById("titulo").value,
-autor: document.getElementById("autor").value,
-categoria: document.getElementById("categoria").value,
-texto: document.getElementById("texto").value,
-
-progresso:0,
-
-paginaAtual:1,
-
-favorito:false,
-
-criadoEm:serverTimestamp()
+    contador.innerHTML =
+        📷 ${paginas.files.length} página(s) selecionada(s).;
 
 });
 
-alert("Livro salvo com sucesso!");
-
-window.location="biblioteca.html";
-
-}
-
-catch(e){
-
-alert(e.message);
-
-}
-
-}
-const paginas = document.getElementById("fotos");
-paginas.onchange=()=>{
-
-document.getElementById("contadorPaginas").innerHTML =
-"📷 " + paginas.files.length + " página(s) selecionada(s).";
-
-};
-
 document.getElementById("adicionarPaginas").onclick = () => {
 
-    const preview = document.getElementById("previewPaginas");
     preview.innerHTML = "";
 
-    const arquivos = [...paginas.files];
-
-    if (arquivos.length === 0) {
+    if (paginas.files.length === 0) {
         alert("Selecione as páginas primeiro.");
         return;
     }
 
-    arquivos.forEach((arquivo, indice) => {
+    [...paginas.files].forEach((arquivo, indice) => {
 
-        const leitor = new FileReader();
+        const reader = new FileReader();
 
-        leitor.onload = (e) => {
+        reader.onload = (e) => {
 
             const card = document.createElement("div");
 
             card.style.background = "#1b1b1b";
-            card.style.borderRadius = "10px";
+            card.style.borderRadius = "12px";
             card.style.padding = "8px";
             card.style.textAlign = "center";
 
             card.innerHTML = `
-                <img src="${e.target.result}" style="width:100%; border-radius:8px;">
-                <div style="margin-top:6px;">
+                <img
+                    src="${e.target.result}"
+                    style="
+                        width:100%;
+                        border-radius:8px;
+                    ">
+                <div style="margin-top:6px">
                     Página ${indice + 1}
                 </div>
             `;
@@ -253,39 +227,11 @@ document.getElementById("adicionarPaginas").onclick = () => {
 
         };
 
-        leitor.readAsDataURL(arquivo);
+        reader.readAsDataURL(arquivo);
 
     });
 
 };
-arquivos.forEach((arquivo, indice) => {
-
-    const leitor = new FileReader();
-
-    leitor.onload = (e) => {
-
-        const card = document.createElement("div");
-
-        card.style.background = "#1b1b1b";
-        card.style.borderRadius = "10px";
-        card.style.padding = "8px";
-        card.style.textAlign = "center";
-
-        card.innerHTML = `
-            <img src="${e.target.result}"
-                 style="width:100%; border-radius:8px;">
-            <div style="margin-top:6px;">
-                Página ${indice + 1}
-            </div>
-        `;
-
-        preview.appendChild(card);
-
-    };
-
-    leitor.readAsDataURL(arquivo);
-
-});
 
 document.getElementById("ocr").onclick = async () => {
 
@@ -294,26 +240,105 @@ document.getElementById("ocr").onclick = async () => {
         return;
     }
 
-    const caixaTexto = document.getElementById("texto");
-    caixaTexto.value = "";
+    texto.value = "";
 
     for (let i = 0; i < paginas.files.length; i++) {
 
-        caixaTexto.value += "\n\nProcessando página " + (i + 1) + "...\n\n";
+        texto.value +=
+            \n📖 Processando página ${i + 1} de ${paginas.files.length}...\n\n;
 
-        const resultado = await Tesseract.recognize(
+        const {
+            data
+        } = await Tesseract.recognize(
             paginas.files[i],
             "por"
         );
 
-        caixaTexto.value += resultado.data.text;
+        texto.value += data.text + "\n\n";
+
     }
 
-    alert("Livro convertido para texto!");
+    alert("OCR concluído!");
 
 };
 
-</script>
+  document.getElementById("salvar").onclick = async () => {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+        alert("Faça login primeiro.");
+        return;
+    }
+
+    try {
+
+        await addDoc(collection(db, "livros"), {
+
+            uid: user.uid,
+            titulo: document.getElementById("titulo").value,
+            autor: document.getElementById("autor").value,
+            categoria: document.getElementById("categoria").value,
+            texto: texto.value,
+
+            progresso: 0,
+            paginaAtual: 1,
+            favorito: false,
+            criadoEm: serverTimestamp()
+
+        });
+
+        alert("Livro salvo com sucesso!");
+
+        window.location = "biblioteca.html";
+
+    } catch (erro) {
+
+        console.error(erro);
+        alert(erro.message);
+
+    }
+
+};
+
+const leitor = window.speechSynthesis;
+
+let fala = null;
+
+function falarTexto() {
+
+    if (!texto.value.trim()) {
+        alert("Não há texto para ler.");
+        return;
+    }
+
+    leitor.cancel();
+
+    fala = new SpeechSynthesisUtterance(texto.value);
+
+    fala.lang = "pt-BR";
+    fala.rate = 1;
+    fala.pitch = 1;
+
+    leitor.speak(fala);
+
+}
+  document.getElementById("ouvir").onclick = () => {
+    falarTexto();
+};
+
+document.getElementById("pausar").onclick = () => {
+    window.speechSynthesis.pause();
+};
+
+document.getElementById("continuar").onclick = () => {
+    window.speechSynthesis.resume();
+};
+
+document.getElementById("parar").onclick = () => {
+    window.speechSynthesis.cancel();
+};
+  </script>
 
 </body>
 
