@@ -158,7 +158,7 @@ addDoc,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-import Tesseract from "https://cdn.jsdelivr.net/npm/tesseract.js@5/+esm";
+
 
 const firebaseConfig = {
 apiKey:"AIzaSyDmCuCiQ51w6bHFi_Qz3R8dy6u7DvsG43g",
@@ -261,12 +261,14 @@ async function melhorarImagem(file) {
                 let g = data[i + 1];
                 let b = data[i + 2];
 
-                let cinza = (r + g + b) / 3;
+               let cinza = (r * 0.299) + (g * 0.587) + (b * 0.114);
 
-                data[i] = cinza;
-                data[i + 1] = cinza;
-                data[i + 2] = cinza;
+// aumenta o contraste
+cinza = cinza > 170 ? 255 : 0;
 
+data[i] = cinza;
+data[i + 1] = cinza;
+data[i + 2] = cinza;
             }
 
             ctx.putImageData(imageData, 0, 0);
