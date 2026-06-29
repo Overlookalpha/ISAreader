@@ -280,6 +280,35 @@ async function melhorarImagem(file) {
     });
 
 }
+
+function limparTextoOCR(texto) {
+
+    return texto
+
+        // Junta palavras quebradas por hífen no fim da linha
+        .replace(/-\n/g, "")
+
+        // Junta linhas que continuam a mesma frase
+        .replace(/([a-záàâãéêíóôõúç0-9,])\n([a-záàâãéêíóôõúç])/gi, "$1 $2")
+
+        // Mantém apenas uma linha em branco entre parágrafos
+        .replace(/\n{3,}/g, "\n\n")
+
+        // Remove espaços repetidos
+        .replace(/[ \t]+/g, " ")
+
+        // Remove espaços antes da pontuação
+        .replace(/\s+([.,;!?])/g, "$1")
+
+        // Remove linhas só com símbolos
+        .replace(/^[^A-Za-zÀ-ÿ0-9]+$/gm, "")
+
+        // Remove linhas vazias extras
+        .replace(/\n\s*\n/g, "\n\n")
+
+        .trim();
+
+}
     
 document.getElementById("ocr").onclick = async () => {
 
@@ -309,13 +338,14 @@ const { data } = await Tesseract.recognize(
                     Math.round(m.progress * 100) + "%\n\n";
             }
         },
-        tessedit_ocr_engine_mode: "1",
-        tessedit_pageseg_mode: "6",
+        
+        tessedit_pageseg_mode: "3",
         preserve_interword_spaces: "1"
     }
 );
-        texto.value += data.text + "\n\n";
+        const textoLimpo = limparTextoOCR(data.text);
 
+        texto.value += textoLimpo + "\n\n";
     }
 
     alert("OCR concluído!");
